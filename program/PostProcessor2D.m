@@ -1,0 +1,172 @@
+function [] = PostProcessor2D(System,PostProc,dirichlet,displacements,U)
+
+%% Here come some Plot functions:
+
+% Plot the node numbers
+if PostProc.NodeNum == 1 || PostProc.Support == 1
+    scatter(System.nodes(:,1)',System.nodes(:,2)')
+    hold on
+
+    % Dummy nodes for legend
+    if PostProc.Support == 1
+        sf = 1/1000;
+        x = [0 1 0.5]*sf;
+        y = [0 0 0]*sf;
+        fill(x,y,'r')
+        fill(x,y,'b')
+    end
+
+    delta = 0.03;
+    for k=1:length(System.nodes(:,1)')
+        if PostProc.NodeNum == 1
+            text(System.nodes(k,1),System.nodes(k,2),num2str(k))
+        end
+        if PostProc.Support == 1
+            if  dirichlet(k,1) == 1 && displacements(k,1)== 0 % support in x
+                % draw pyramide in red
+                Tip = System.nodes(k,:);
+
+                % Fünf Flächen definieren:
+                % Area 1:
+                x1 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y1 = [Tip(2) Tip(2)-delta Tip(2)+delta];
+                fill(x1,y1,'r')
+                % Area 2:
+                x2 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y2 = [Tip(2) Tip(2)+delta Tip(2)+delta];
+                fill(x2,y2,'r')
+
+                % Area 3:
+                x3 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y3 = [Tip(2) Tip(2)+delta Tip(2)-delta];
+                fill(x3,y3,'r')
+
+                % Area 4:
+                x4 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y4 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x4,y4,'r')
+
+                % Area 5:
+                x5 = [Tip(1)-delta Tip(1)-delta Tip(1)-delta Tip(1)-delta];
+                y5 = [Tip(2)-delta Tip(2)+delta Tip(2)+delta Tip(2)-delta];
+                fill(x5,y5,'r')
+
+            elseif  dirichlet(k,1) == 1 && displacements(k,1) ~= 0
+                % draw pyramide blue
+                Tip = System.nodes(k,:);
+
+                % Fünf Flächen definieren:
+                % Area 1:
+                x1 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y1 = [Tip(2) Tip(2)-delta Tip(2)+delta];
+                fill(x1,y1,'b')
+                % Area 2:
+                x2 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y2 = [Tip(2) Tip(2)+delta Tip(2)+delta];
+                fill(x2,y2,'b')
+
+                % Area 3:
+                x3 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y3 = [Tip(2) Tip(2)+delta Tip(2)-delta];
+                fill(x3,y3,'b')
+
+                % Area 4:
+                x4 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y4 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x4,y4,'b')
+
+                % Area 5:
+                x5 = [Tip(1)-delta Tip(1)-delta Tip(1)-delta Tip(1)-delta];
+                y5 = [Tip(2)-delta Tip(2)+delta Tip(2)+delta Tip(2)-delta];
+                fill(x5,y5,'b')
+            end
+            if  dirichlet(k,2) == 1 && displacements(k,2)== 0 % support in y
+                % draw pyramide in red
+                Tip = System.nodes(k,:);
+
+                % Fünf Flächen definieren:
+                % Area 1:
+                x1 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y1 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x1,y1,'r')
+                % Area 2:
+                x2 = [Tip(1) Tip(1)+delta Tip(1)-delta];
+                y2 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x2,y2,'r')
+
+                % Area 3:
+                x3 = [Tip(1) Tip(1)+delta Tip(1)+delta];
+                y3 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x3,y3,'r')
+
+                % Area 4:
+                x4 = [Tip(1) Tip(1)-delta Tip(1)+delta];
+                y4 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                fill(x4,y4,'r')
+
+                % Area 5:
+                x5 = [Tip(1)-delta Tip(1)+delta Tip(1)+delta Tip(1)-delta];
+                y5 = [Tip(2)-delta Tip(2)-delta Tip(2)-delta Tip(2)-delta];
+                fill(x5,y5,'r')
+
+            elseif  dirichlet(k,2) == 1 && displacements(k,2) ~= 0
+                % draw pyramide blue
+                Tip = System.nodes(k,:);
+
+                % Fünf Flächen definieren:
+                % Area 1:
+                x1 = [Tip(1) Tip(1)-delta Tip(1)-delta];
+                y1 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                z1 = [Tip(3) Tip(3)-delta Tip(3)+delta];
+                fill(x1,y1,z1,'b')
+                % Area 2:
+                x2 = [Tip(1) Tip(1)+delta Tip(1)-delta];
+                y2 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                z2 = [Tip(3) Tip(3)-delta Tip(3)-delta];
+                fill(x2,y2,z2,'b')
+
+                % Area 3:
+                x3 = [Tip(1) Tip(1)+delta Tip(1)+delta];
+                y3 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                z3 = [Tip(3) Tip(3)+delta Tip(3)-delta];
+                fill(x3,y3,z3,'b')
+
+                % Area 4:
+                x4 = [Tip(1) Tip(1)-delta Tip(1)+delta];
+                y4 = [Tip(2) Tip(2)-delta Tip(2)-delta];
+                z4 = [Tip(3) Tip(3)+delta Tip(3)+delta];
+                fill(x4,y4,z4,'b')
+
+                % Area 5:
+                x5 = [Tip(1)-delta Tip(1)+delta Tip(1)+delta Tip(1)-delta];
+                y5 = [Tip(2)-delta Tip(2)-delta Tip(2)-delta Tip(2)-delta];
+                z5 = [Tip(3)+delta Tip(3)+delta Tip(3)-delta Tip(3)-delta];
+                fill(x5,y5,z5,'b')
+
+            end
+        end
+    end
+    xlabel('x')
+    ylabel('y')
+    if PostProc.Support == 1
+        legend('Node','Fixed Support','Displacements','location','northeast')
+    else
+        legend('Node','location','northeast')
+    end
+end
+
+% Plot deformed system:
+if PostProc.Deform == 1
+    figure
+    scatter(System.nodes(:,1),System.nodes(:,2))
+    hold on
+    U_nodes = System.nodes + reshape(U,2,[])';
+
+
+    scatter(U_nodes(:,1),U_nodes(:,2),'filled','red')
+    xlabel('x')
+    ylabel('y')
+    legend('Undeformed','Deformed','location','northeast')
+end
+
+end
